@@ -82,6 +82,7 @@ func (tg TgAPI) getMethod(method string, params url.Values) (*http.Response, err
 }
 
 func (tg TgAPI) startPolling() chan Update {
+	// TODO: Add slog to write debug logs
 	updates := make(chan Update)
 	go func(updates chan Update) {
 		currentOffset := 0

@@ -20,7 +20,7 @@ Built with Go using standard library and minimal dependencies.
 ## MVP Plan
 
 ### Phase 1: Core
-- [ ] Telegram API client (long polling)
+- [x] Telegram API client (long polling)
 - [ ] User whitelist authentication
 - [ ] SQLite setup and schema
 
