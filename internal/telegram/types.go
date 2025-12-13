@@ -34,3 +34,13 @@ type Chat struct {
 	Username  string `json:"username"`
 	Type      string `json:"type"`
 }
+
+type SendMessageRequest struct {
+	ChatID int64  `json:"chat_id"`
+	Text   string `json:"text"`
+}
+
+type SendMessageResponse struct {
+	Ok     bool    `json:"ok"`
+	Result Message `json:"result"`
+}

@@ -1,7 +1,9 @@
 package telegram
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -92,4 +94,37 @@ func (c *Client) StartPolling() chan Update {
 // GetMe checks that the bot token is valid
 func (c *Client) GetMe() (*http.Response, error) {
 	return c.getMethod("getMe", nil)
+}
+
+// SendMessage sends a text message to a chat
+func (c *Client) SendMessage(chatID int64, text string) error {
+	url := fmt.Sprintf("%s/bot%s/sendMessage", c.baseUrl, c.token)
+
+	reqBody := SendMessageRequest{
+		ChatID: chatID,
+		Text:   text,
+	}
+
+	jsonData, err := json.Marshal(reqBody)
+	if err != nil {
+		return fmt.Errorf("failed to marshal request: %w", err)
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return fmt.Errorf("failed to send message: %w", err)
+	}
+	defer resp.Body.Close()
+
+	var result SendMessageResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return fmt.Errorf("failed to decode response: %w", err)
+	}
+
+	if !result.Ok {
+		return fmt.Errorf("telegram API returned ok=false")
+	}
+
+	slog.Debug("Message sent successfully", "chat_id", chatID)
+	return nil
 }
