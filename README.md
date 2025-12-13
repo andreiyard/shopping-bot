@@ -21,17 +21,17 @@ Built with Go using standard library and minimal dependencies.
 
 ### Phase 1: Core
 - [x] Telegram API client (long polling)
-- [ ] User whitelist authentication
-- [ ] SQLite setup and schema
+- [x] User whitelist authentication
+- [x] SQLite setup and schema
 
 ### Phase 2: Basic Commands
-- [ ] `/add <item>` - add to list
-- [ ] `/list` - show active items
-- [ ] `/bought <item>` - mark purchased
-- [ ] `/help` - show commands
+- [x] `/add <item>` - add to list
+- [x] `/list` - show active items
+- [x] `/bought <item>` - mark purchased
+- [x] `/help` - show commands
 
 ### Phase 3: History
-- [ ] `/history` - recent purchases
+- [x] `/history` - recent purchases
 - [ ] Quick-add from history
 
 ## Configuration
@@ -42,6 +42,7 @@ ALLOWED_USERS=123456789,987654321
 
 ## Future Features
 
+- Buttons to perform actions (when listing add button "check" and "del" for each entry, add button "add" with suggested items as buttons)
 - Adding items in bulk (fuzzy match with history)
 - Store/category grouping
 - Purchase frequency analytics
