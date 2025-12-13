@@ -11,11 +11,11 @@ type Update struct {
 }
 
 type Message struct {
-	MessageID int    `json:"message_id"`
-	From      User   `json:"from"`
-	Chat      Chat   `json:"chat"`
-	Date      int64  `json:"date"`
-	Text      string `json:"text"`
+	ID   int    `json:"message_id"`
+	From User   `json:"from"`
+	Chat Chat   `json:"chat"`
+	Date int64  `json:"date"`
+	Text string `json:"text"`
 }
 
 type User struct {

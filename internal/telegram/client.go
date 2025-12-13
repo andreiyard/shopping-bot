@@ -3,7 +3,7 @@ package telegram
 import (
 	"encoding/json"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -23,6 +23,8 @@ func NewClient(token string, baseUrlOptional ...string) *Client {
 }
 
 func (c *Client) getMethod(method string, params url.Values) (*http.Response, error) {
+	slog.Debug("Making telegram API request", "method", method, "params", params)
+
 	// Parse URL and add params
 	constructedURL, err := url.JoinPath(c.baseUrl, "bot"+c.token, method)
 	if err != nil {
@@ -43,8 +45,11 @@ func (c *Client) getMethod(method string, params url.Values) (*http.Response, er
 }
 
 func (c *Client) StartPolling() chan Update {
-	// TODO: Add slog to write debug logs
+	slog.Info("Starting polling")
 	updates := make(chan Update)
+
+	// TODO: Get timeout from config
+	// TODO: Move for loop body to separate CheckUpdates function
 	go func(updates chan Update) {
 		currentOffset := 0
 		params := url.Values{}
@@ -55,22 +60,25 @@ func (c *Client) StartPolling() chan Update {
 			res, err := c.getMethod("getUpdates", params)
 			if err != nil {
 				// Don't crash if one request failed
-				log.Println(err)
+				slog.Debug("Got error", "err", err)
 				continue
 			}
-			var response TgResponse
+
 			body, err := io.ReadAll(res.Body)
 			if err != nil {
-				log.Println(err)
+				slog.Debug("Got error", "err", err)
 				continue
 			}
+
+			var response TgResponse
 			if err := json.Unmarshal([]byte(body), &response); err != nil {
-				log.Println(err)
+				slog.Debug("Got error", "err", err)
 				continue
 			}
 			if !response.Ok {
-				log.Println("getUpdates returned Ok:false")
+				slog.Debug("getUpdates returned Ok:false")
 			}
+
 			for _, u := range response.Result {
 				updates <- u
 				// After reading update, set offset to avoid duplicate updates
