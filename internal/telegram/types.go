@@ -6,12 +6,12 @@ type TgResponse struct {
 }
 
 type Update struct {
-	UpdateID int     `json:"update_id"`
+	UpdateID int64   `json:"update_id"`
 	Message  Message `json:"message"`
 }
 
 type Message struct {
-	ID   int    `json:"message_id"`
+	ID   int64  `json:"message_id"`
 	From User   `json:"from"`
 	Chat Chat   `json:"chat"`
 	Date int64  `json:"date"`
@@ -19,7 +19,7 @@ type Message struct {
 }
 
 type User struct {
-	ID           int    `json:"id"`
+	ID           int64  `json:"id"`
 	IsBot        bool   `json:"is_bot"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
@@ -28,7 +28,7 @@ type User struct {
 }
 
 type Chat struct {
-	ID        int    `json:"id"`
+	ID        int64  `json:"id"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Username  string `json:"username"`

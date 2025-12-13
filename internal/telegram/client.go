@@ -53,12 +53,12 @@ func (c *Client) StartPolling() chan Update {
 	// TODO: Get timeout from config
 	// TODO: Move for loop body to separate CheckUpdates function
 	go func(updates chan Update) {
-		currentOffset := 0
+		var currentOffset int64
 		params := url.Values{}
 		params.Add("offset", "0")
 		params.Add("timeout", "10")
 		for {
-			params.Set("offset", strconv.Itoa(currentOffset))
+			params.Set("offset", strconv.FormatInt(currentOffset, 10))
 			res, err := c.getMethod("getUpdates", params)
 			if err != nil {
 				// Don't crash if one request failed
