@@ -8,6 +8,9 @@
 *.so
 *.dylib
 
+# SQLite DB file
+shopping.db
+
 # Test binary, built with `go test -c`
 *.test
 
